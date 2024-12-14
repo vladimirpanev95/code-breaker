@@ -17,9 +17,12 @@ contract SimpleStorage {
 
     Person[] public listOfPeople;
 
+    mapping(string => uint256) public  nameToFavouriteNumber;
+
     function createPerson(uint _favouriteNumber, string memory _name) public {
         Person memory newPerson = Person(_favouriteNumber, _name);
         listOfPeople.push(newPerson);
+        nameToFavouriteNumber[_name] = _favouriteNumber;
     }
 
     //view, pure
