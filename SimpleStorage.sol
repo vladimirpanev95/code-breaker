@@ -16,8 +16,9 @@ contract SimpleStorage {
     }
 
     Person[] public listOfPeople;
-
-    mapping(string => uint256) public  nameToFavouriteNumber;
+    
+    // Maria => 10
+    mapping(string => uint256) public nameToFavouriteNumber;
 
     function createPerson(uint _favouriteNumber, string memory _name) public {
         Person memory newPerson = Person(_favouriteNumber, _name);
