@@ -15,6 +15,12 @@ contract FundMe{
     address[] public funders;
     mapping (address funder => uint256 amountFunded) public addressToAmountFunded;
 
+    address public owner; 
+
+    constructor() {
+      owner = msg.sender;
+    }
+
     function fund() public payable {
        msg.value.getConversionRate();
        require(msg.value.getConversionRate() > minimumUsd, "didn't send enough funds");
@@ -25,10 +31,14 @@ contract FundMe{
     
 
     function withdraw() public {
+        require(msg.sender == owner, "Must be owner!");
         for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++ ){
             address funder = funders[funderIndex];
             addressToAmountFunded[funder] = 0;
         }
+        //reset the array
         funders = new address[](0);
+        (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
+        require(callSuccess, "Call failed");
     }
 }
